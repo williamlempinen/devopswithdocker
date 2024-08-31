@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  proxy:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/ngin.conf
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+      - frontend
+
+  database:
+    image: postgres
+    restart: unless-stopped
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+
+  backend:
+    image: e-back:v6
+    container_name: be
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=database
+      - REQUEST_ORIGIN=http://localhost
+    ports:
+      - 8080:8080
+
+  frontend:
+    image: e-front:v6
+    container_name: fe
+    environment:
+      - REACT_APP_BACKEND_URL=
+    ports:
+      - 5000:5000
+
+volumes:
+  database:

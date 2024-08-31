@@ -1,0 +1,3 @@
+Dockerfiles in front/ and back/ directorys are just for reference, therefore the paths are incorrect.
+
+Images are built in the correct directory and then used in the compose file with their image names.

@@ -1,0 +1,7 @@
+version: "3.8"
+
+services:
+  ex-2-2:
+    image: devopsdockeruh/simple-web-service
+    build: .
+    command: server
